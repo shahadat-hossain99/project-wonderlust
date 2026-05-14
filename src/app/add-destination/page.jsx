@@ -10,11 +10,13 @@ import {
   Button,
   Card,
 } from "@heroui/react";
+import { Bounce, toast } from "react-toastify";
 
 const AddDestinationPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const destination = Object.fromEntries(formData.entries());
 
     console.log(destination, "from user");
@@ -27,16 +29,46 @@ const AddDestinationPage = () => {
       body: JSON.stringify(destination),
     });
     const data = await res.json();
+
+    console.log("res.ok:", res.ok, "status:", res.status);
+
+    if (res.ok) {
+      toast.success("Destination added successfully!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      form.reset();
+    } else {
+      toast.error("Failed to add destination.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    }
+
     console.log(data);
   };
 
   return (
-    <div className="p-5 max-w-7xl mx-auto mt-10">
-      <h1 className="text-cyan-500 text-center  text-2xl md:text-5xl font-extrabold ">
+    <div className="p-5 max-w-11/12 md:max-w-2/3 mx-auto mt-10">
+      <h1 className="text-cyan-600 text-center  text-2xl md:text-5xl font-extrabold ">
         Add Destination
       </h1>
 
-      <Card className="shadow mt-4 md:m-8">
+      <Card className="shadow mt-4 md:m-8 ">
         <form onSubmit={onSubmit} className="p-10 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Destination Name */}
