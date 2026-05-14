@@ -1,11 +1,227 @@
+import { Button, Input, Chip, Card } from "@heroui/react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  HiCheckCircle,
+  HiOutlineCalendar,
+  HiOutlineClock,
+  HiOutlineLocationMarker,
+  HiOutlineShieldCheck,
+  HiOutlineSupport,
+} from "react-icons/hi";
+import { LuArrowLeft } from "react-icons/lu";
+import { MdEditSquare } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+
 const DestinationDetailPage = async ({ params }) => {
   const { id } = await params;
-  console.log(id, "details");
+  //   console.log(id, "details");
+
+  const res = await fetch(`http://localhost:5004/destination/${id}`);
+  const destination = await res.json();
+  console.log(destination);
+
+  const { imageUrl, destinationName, category, price, duration, country } =
+    destination;
+
+  const highlights = [
+    "Expert guided city tours",
+    "Luxury accommodation included",
+    "Daily breakfast and dinner",
+    "All entrance fees covered",
+    "Private airport transfers",
+  ];
 
   return (
-    <div>
-      <h2>Details are headers</h2>
-    </div>
+    <section className="max-w-7xl mx-auto px-6 py-12">
+      {/* Top Bar */}
+
+      <div className="flex items-center justify-between py-4 border-b border-gray-100 mb-10">
+        <Link
+          href="/destinations"
+          className="flex items-center gap-1.5 text-gray-600 hover:text-gray-900 text-lg font-medium transition-colors"
+        >
+          <LuArrowLeft className="text-base" />
+          Back to Destinations
+        </Link>
+        <div className="flex items-center gap-5">
+          <p className="flex items-center justify-between gap-3 text-cyan-400 border border-cyan-400 p-2.5 rounded-xl font-semibold hover:text-cyan-600 ">
+            {" "}
+            <MdEditSquare size={25} /> Edit
+          </p>
+          <p className="flex items-center justify-between gap-3 text-red-400 border border-red-400 p-2.5 rounded-xl font-semibold hover:text-red-600 ease-in-out">
+            {" "}
+            <RiDeleteBin6Line size={25} /> Cancel
+          </p>
+          {/* <EditModal destination={destination} />
+                    <DeleteAlert destination={destination} /> */}
+        </div>
+      </div>
+
+      {/* Header Section */}
+      <div className="mb-8">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          <Chip
+            color="primary"
+            variant="flat"
+            size="md"
+            className="font-semibold uppercase"
+          >
+            {destination.category}
+          </Chip>
+          <div className="flex items-center text-default-500 text-sm">
+            <HiOutlineLocationMarker className="mr-1" />
+            {destination.country}
+          </div>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-default-900">
+          Explore {destination.destinationName}
+        </h1>
+      </div>
+
+      {/* Hero Image Gallery (Simplified) */}
+      <div className="relative h-[400px] md:h-[550px] w-full mb-12 rounded-3xl overflow-hidden shadow-xl">
+        <Image
+          src={destination.imageUrl}
+          alt={destination.destinationName}
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Left Column: Details */}
+        <div className="lg:col-span-2 space-y-12">
+          {/* Overview */}
+          <div>
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              Overview
+            </h2>
+            <p className="text-default-600 leading-relaxed text-lg">
+              {destination.description}
+            </p>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8">
+              <div className="flex flex-col gap-1">
+                <span className="text-default-400 text-sm italic">
+                  Duration
+                </span>
+                <div className="flex items-center gap-2 font-medium">
+                  <HiOutlineClock className="text-primary text-xl" />
+                  {destination.duration}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-default-400 text-sm italic">
+                  Departure
+                </span>
+                <div className="flex items-center gap-2 font-medium">
+                  <HiOutlineCalendar className="text-primary text-xl" />
+                  {destination.departureDate}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* <Divider /> */}
+          <hr className="my-8 border-t border-default-200" />
+
+          {/* Highlights */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Experience Highlights</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+              {highlights.map((highlight, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <HiCheckCircle className="text-success text-xl shrink-0" />
+                  <span className="text-default-700">{highlight}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Why Wonderlust Card */}
+          <div className="bg-primary-50/50 border-none shadow-none rounded-3xl">
+            <div className="">
+              <h3 className="text-xl font-bold mb-3 text-primary-700">
+                Why Visit {destination.destinationName} with Wonderlust?
+              </h3>
+              <p className="text-default-700 leading-relaxed">
+                We curate our {destination.destinationName} packages to ensure a
+                seamless blend of adventure and relaxation. From local hidden
+                gems in {destination.country} to VIP access at major landmarks,
+                we handle the logistics so you can focus on making memories.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Sticky Booking Widget */}
+        <div className="relative">
+          <Card className="sticky top-24 rounded-3xl shadow-2xl border border-default-100">
+            <div className="p-8">
+              <div className="mb-6">
+                <span className="text-default-500 text-sm font-medium">
+                  Pricing starts at
+                </span>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <h2 className="text-5xl font-bold text-primary">
+                    ${destination.price}
+                  </h2>
+                  <span className="text-default-500 font-medium">/ person</span>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-default-400 uppercase ml-1">
+                    Travel Date {"  "}:
+                  </label>
+                  <Input
+                    readOnly
+                    value={destination.departureDate}
+                    variant="flat"
+                    startContent={
+                      <HiOutlineCalendar className="text-default-400" />
+                    }
+                    className="font-medium"
+                  />
+                </div>
+
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="w-full font-bold text-lg h-14 shadow-lg shadow-primary/30"
+                >
+                  Book This Trip
+                </Button>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-default-100 space-y-4">
+                <div className="flex items-start gap-3">
+                  <HiOutlineShieldCheck className="text-success text-xl" />
+                  <div>
+                    <p className="text-sm font-semibold">Secure Booking</p>
+                    <p className="text-xs text-default-500">
+                      Free cancellation up to 7 days before
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <HiOutlineSupport className="text-primary text-xl" />
+                  <div>
+                    <p className="text-sm font-semibold">24/7 Concierge</p>
+                    <p className="text-xs text-default-500">
+                      Global support during your travels
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </section>
   );
 };
 
