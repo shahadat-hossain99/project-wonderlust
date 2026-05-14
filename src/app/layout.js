@@ -1,7 +1,8 @@
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from "@/components/Shared/Navbar/Navbar";
 import { ToastContainer } from "react-toastify";
+import Footer from "@/components/Shared/Footer/Footer";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -14,10 +15,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${josefin.className} h-full antialiased`}>
+    <html
+      data-theme="light"
+      lang="en"
+      className={`${josefin.className} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         <Navbar />
         <main> {children}</main>
+        <Footer />
 
         <ToastContainer position="top-center" />
       </body>

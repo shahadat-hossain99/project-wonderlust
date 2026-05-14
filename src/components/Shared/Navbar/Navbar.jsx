@@ -92,7 +92,7 @@ const Navbar = () => {
             <Link href="/" onClick={closeMenu} className="shrink-0">
               <Image
                 src="/assets/Wanderlast.png"
-                alt="Wanderlast"
+                alt="Logo"
                 width={150}
                 height={48}
               />
