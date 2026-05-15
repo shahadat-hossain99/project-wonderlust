@@ -6,9 +6,16 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
-import { FaUser, FaSignInAlt, FaUserPlus } from "react-icons/fa";
+import { FaUser, FaSignInAlt, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, Button } from "@heroui/react";
 
 const Navbar = () => {
+  const { data: session, isPending } = authClient.useSession();
+
+  const user = session?.user;
+  console.log(user);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -100,32 +107,59 @@ const Navbar = () => {
           </div>
 
           {/* Right nav links — desktop */}
-          <ul className="hidden lg:flex items-center gap-1 shrink-0">
+          <ul className="hidden lg:flex items-center gap-3 shrink-0">
             <li>
               <Link href="/profile" className={desktopLinkClass("/profile")}>
                 <FaUser className="shrink-0" />
                 Profile
               </Link>
             </li>
-            <li>
-              <Link href="/login" className={desktopLinkClass("/login")}>
-                <FaSignInAlt className="shrink-0" />
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/signup"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-150 whitespace-nowrap shadow-sm ${
-                  isActive("/signup")
-                    ? "bg-teal-700 text-white ring-2 ring-teal-400 ring-offset-1"
-                    : "bg-teal-500 hover:bg-teal-600 text-white"
-                }`}
-              >
-                <FaUserPlus className="shrink-0" />
-                Sign Up
-              </Link>
-            </li>
+            {user ? (
+              <>
+                <li>
+                  <Avatar>
+                    <Avatar.Image
+                      referrerPolicy="no-referrer"
+                      alt={user?.name}
+                      src={user?.image}
+                    />
+                    <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                  </Avatar>
+                </li>
+                <li>
+                  <Button
+                    // onClick={handleSignout}
+                    variant="danger-soft"
+                    className={"rounded-md"}
+                  >
+                    <FaSignOutAlt className="rotate-180" size={15} />
+                    Logout
+                  </Button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/login" className={desktopLinkClass("/login")}>
+                    <FaSignInAlt className="shrink-0" />
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/signup"
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-150 whitespace-nowrap shadow-sm ${
+                      isActive("/signup")
+                        ? "bg-teal-700 text-white ring-2 ring-teal-400 ring-offset-1"
+                        : "bg-teal-500 hover:bg-teal-600 text-white"
+                    }`}
+                  >
+                    <FaUserPlus className="shrink-0" />
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
@@ -188,23 +222,56 @@ const Navbar = () => {
               Account
             </p>
             <ul className="flex flex-col gap-1 px-3">
-              {rightLinks.map(({ href, label, icon }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    onClick={closeMenu}
-                    className={drawerLinkClass(href)}
-                  >
-                    <span className={drawerIconClass(href)}>{icon}</span>
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/profile" className={desktopLinkClass("/profile")}>
+                  <FaUser className="shrink-0" />
+                  Profile
+                </Link>
+              </li>
+              {user ? (
+                <>
+                  <li className="flex justify-center">
+                    <Avatar>
+                      <Avatar.Image
+                        referrerPolicy="no-referrer"
+                        alt={user?.name}
+                        src={user?.image}
+                      />
+                      <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                    </Avatar>
+                  </li>
+                  <li>
+                    <Button
+                      // onClick={handleSignout}
+                      variant="danger-soft"
+                      className={"w-full rounded-md"}
+                    >
+                      <FaSignOutAlt className="rotate-180" size={15} />
+                      Logout
+                    </Button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  {rightLinks.map(({ href, label, icon }) => (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        onClick={closeMenu}
+                        className={drawerLinkClass(href)}
+                      >
+                        <span className={drawerIconClass(href)}>{icon}</span>
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </>
+              )}
             </ul>
           </div>
 
           {/* CTA */}
-          <div className="px-5 mt-4">
+          {/* <div className="px-5 mt-4">
             <Link
               href="/signup"
               onClick={closeMenu}
@@ -217,7 +284,7 @@ const Navbar = () => {
               <FaUserPlus />
               Create Free Account
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
