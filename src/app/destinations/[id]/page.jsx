@@ -1,3 +1,4 @@
+import { DeleteAlert } from "@/components/Ui/DeleteAlert";
 import { EditModal } from "@/components/Ui/EditModal";
 import { Button, Chip, Card } from "@heroui/react";
 import { Input } from "@heroui/react";
@@ -48,10 +49,12 @@ const DestinationDetailPage = async ({ params }) => {
         </Link>
         <div className="flex items-center gap-5">
           <EditModal destination={destination} />
-          <Button variant="danger" className="rounded-md  ">
+
+          <DeleteAlert destination={destination} />
+          {/* <Button variant="danger" className="rounded-md  ">
             {" "}
             <RiDeleteBin6Line size={25} /> Cancel
-          </Button>
+          </Button> */}
           {/* <EditModal destination={destination} />
                     <DeleteAlert destination={destination} /> */}
         </div>
