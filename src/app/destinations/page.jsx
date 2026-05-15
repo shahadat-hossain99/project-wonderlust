@@ -7,7 +7,7 @@ const DestinationPage = async () => {
   console.log(destinations, "from client");
 
   return (
-    <div className="max-w-7xl mx-auto pt-4">
+    <div className="max-w-7xl mx-auto pt-3 md:mb-16 mb-8">
       <h1 className="text-3xl md:text-5xl font-extrabold text-center my-5 md:my-10 text-cyan-600">
         All Destinations
       </h1>
