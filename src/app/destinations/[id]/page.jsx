@@ -1,4 +1,6 @@
-import { Button, Input, Chip, Card } from "@heroui/react";
+import { EditModal } from "@/components/Ui/EditModal";
+import { Button, Chip, Card } from "@heroui/react";
+import { Input } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -45,14 +47,11 @@ const DestinationDetailPage = async ({ params }) => {
           Back to Destinations
         </Link>
         <div className="flex items-center gap-5">
-          <p className="flex items-center justify-between gap-3 text-cyan-400 border border-cyan-400 p-2.5 rounded-xl font-semibold hover:text-cyan-600 ">
-            {" "}
-            <MdEditSquare size={25} /> Edit
-          </p>
-          <p className="flex items-center justify-between gap-3 text-red-400 border border-red-400 p-2.5 rounded-xl font-semibold hover:text-red-600 ease-in-out">
+          <EditModal destination={destination} />
+          <Button variant="danger" className="rounded-md  ">
             {" "}
             <RiDeleteBin6Line size={25} /> Cancel
-          </p>
+          </Button>
           {/* <EditModal destination={destination} />
                     <DeleteAlert destination={destination} /> */}
         </div>
@@ -175,15 +174,15 @@ const DestinationDetailPage = async ({ params }) => {
               <div className="space-y-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-default-400 uppercase ml-1">
-                    Travel Date {"  "}:
+                    Travel Date {"  "}: {"  "}
                   </label>
                   <Input
                     readOnly
                     value={destination.departureDate}
                     variant="flat"
-                    startContent={
-                      <HiOutlineCalendar className="text-default-400" />
-                    }
+                    // startContent={
+                    //   <HiOutlineCalendar className="text-default-400" />
+                    // }
                     className="font-medium"
                   />
                 </div>
