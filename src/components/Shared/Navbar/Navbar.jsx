@@ -16,6 +16,10 @@ const Navbar = () => {
   const user = session?.user;
   console.log(user);
 
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
+
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -128,7 +132,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Button
-                    // onClick={handleSignout}
+                    onClick={handleSignOut}
                     variant="danger-soft"
                     className={"rounded-md"}
                   >
@@ -182,7 +186,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
           <Image
             src="/assets/Wanderlast.png"
-            alt="Wanderlast"
+            alt="Wanderlust"
             width={120}
             height={36}
             className="h-8 w-auto object-contain"
@@ -242,7 +246,7 @@ const Navbar = () => {
                   </li>
                   <li>
                     <Button
-                      // onClick={handleSignout}
+                      onClick={handleSignOut}
                       variant="danger-soft"
                       className={"w-full rounded-md"}
                     >

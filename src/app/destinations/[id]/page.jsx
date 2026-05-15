@@ -167,7 +167,7 @@ const DestinationDetailPage = async ({ params }) => {
                   Pricing starts at
                 </span>
                 <div className="flex items-baseline gap-1 mt-1">
-                  <h2 className="text-5xl font-bold text-primary">
+                  <h2 className="text-5xl font-bold text-cyan-400">
                     ${destination.price}
                   </h2>
                   <span className="text-default-500 font-medium">/ person</span>
@@ -191,9 +191,8 @@ const DestinationDetailPage = async ({ params }) => {
                 </div>
 
                 <Button
-                  color="primary"
                   size="lg"
-                  className="w-full font-bold text-lg h-14 shadow-lg shadow-primary/30"
+                  className="w-full bg-cyan-400 hover:bg-cyan-500 font-bold text-lg h-14 shadow-lg shadow-primary/30"
                 >
                   Book This Trip
                 </Button>

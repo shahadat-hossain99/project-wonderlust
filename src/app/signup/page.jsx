@@ -42,6 +42,12 @@ const SignUpPage = () => {
     console.log(user);
   };
 
+  const handleGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-default-50">
       <div className="w-full max-w-lg">
@@ -152,7 +158,11 @@ const SignUpPage = () => {
           </div>
 
           {/* Google Button */}
-          <Button variant="bordered" className="w-full rounded-none">
+          <Button
+            onClick={handleGoogleSignIn}
+            variant="outline"
+            className="w-full rounded-none"
+          >
             <FcGoogle size={20} />
             Sign in with Google
           </Button>
