@@ -1,7 +1,9 @@
+import BookingCard from "@/components/Ui/BookingCard";
 import { DeleteAlert } from "@/components/Ui/DeleteAlert";
 import { EditModal } from "@/components/Ui/EditModal";
+// import { authClient } from "@/lib/auth-client";
 import { Button, Chip, Card } from "@heroui/react";
-import { Input } from "@heroui/react";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -9,16 +11,19 @@ import {
   HiOutlineCalendar,
   HiOutlineClock,
   HiOutlineLocationMarker,
-  HiOutlineShieldCheck,
-  HiOutlineSupport,
 } from "react-icons/hi";
 import { LuArrowLeft } from "react-icons/lu";
-import { MdEditSquare } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
+// import { MdEditSquare } from "react-icons/md";
+// import { RiDeleteBin6Line } from "react-icons/ri";
 
 const DestinationDetailPage = async ({ params }) => {
   const { id } = await params;
   //   console.log(id, "details");
+
+  // const { data: session, isPending } = authClient.useSession();
+  // const user = session?.user;
+
+  // console.log(user);
 
   const res = await fetch(`http://localhost:5004/destination/${id}`);
   const destination = await res.json();
@@ -160,66 +165,7 @@ const DestinationDetailPage = async ({ params }) => {
 
         {/* Right Column: Sticky Booking Widget */}
         <div className="relative">
-          <Card className="sticky top-24 rounded-3xl shadow-2xl border border-default-100">
-            <div className="p-8">
-              <div className="mb-6">
-                <span className="text-default-500 text-sm font-medium">
-                  Pricing starts at
-                </span>
-                <div className="flex items-baseline gap-1 mt-1">
-                  <h2 className="text-5xl font-bold text-cyan-400">
-                    ${destination.price}
-                  </h2>
-                  <span className="text-default-500 font-medium">/ person</span>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-default-400 uppercase ml-1">
-                    Travel Date {"  "}: {"  "}
-                  </label>
-                  <Input
-                    readOnly
-                    value={destination.departureDate}
-                    variant="flat"
-                    // startContent={
-                    //   <HiOutlineCalendar className="text-default-400" />
-                    // }
-                    className="font-medium"
-                  />
-                </div>
-
-                <Button
-                  size="lg"
-                  className="w-full bg-cyan-400 hover:bg-cyan-500 font-bold text-lg h-14 shadow-lg shadow-primary/30"
-                >
-                  Book This Trip
-                </Button>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-default-100 space-y-4">
-                <div className="flex items-start gap-3">
-                  <HiOutlineShieldCheck className="text-success text-xl" />
-                  <div>
-                    <p className="text-sm font-semibold">Secure Booking</p>
-                    <p className="text-xs text-default-500">
-                      Free cancellation up to 7 days before
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <HiOutlineSupport className="text-primary text-xl" />
-                  <div>
-                    <p className="text-sm font-semibold">24/7 Concierge</p>
-                    <p className="text-xs text-default-500">
-                      Global support during your travels
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
+          <BookingCard destination={destination} />
         </div>
       </div>
     </section>
