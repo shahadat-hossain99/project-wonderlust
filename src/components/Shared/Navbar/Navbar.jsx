@@ -59,19 +59,19 @@ const Navbar = () => {
   const desktopLinkClass = (href) =>
     `flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-sm transition-all duration-150 whitespace-nowrap ${
       isActive(href)
-        ? "text-teal-600 bg-teal-50 font-semibold"
-        : "text-gray-600 hover:text-teal-600 hover:bg-teal-50"
+        ? "text-cyan-600 bg-cyan-50 font-semibold"
+        : "text-gray-600 hover:text-cyan-600 hover:bg-cyan-50"
     }`;
 
   const drawerLinkClass = (href) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-150 ${
       isActive(href)
-        ? "text-teal-600 bg-teal-50 font-semibold border-l-4 border-teal-500"
-        : "text-gray-700 hover:text-teal-600 hover:bg-teal-50"
+        ? "text-cyan-600 bg-cyan-50 font-semibold border-l-4 border-cyan-500"
+        : "text-gray-700 hover:text-cyan-600 hover:bg-cyan-50"
     }`;
 
   const drawerIconClass = (href) =>
-    `text-lg shrink-0 ${isActive(href) ? "text-teal-600" : "text-teal-400"}`;
+    `text-lg shrink-0 ${isActive(href) ? "text-cyan-600" : "text-cyan-400"}`;
 
   return (
     <>
@@ -79,7 +79,7 @@ const Navbar = () => {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           {/* Hamburger */}
           <button
-            className="lg:hidden shrink-0 p-2 rounded-lg text-gray-600 hover:text-teal-600 hover:bg-teal-50 transition-all duration-200 text-xl"
+            className="lg:hidden shrink-0 p-2 rounded-lg text-gray-600 hover:text-cyan-600 hover:bg-cyan-50 transition-all duration-200 text-xl"
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
@@ -154,8 +154,8 @@ const Navbar = () => {
                     href="/signup"
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-150 whitespace-nowrap shadow-sm ${
                       isActive("/signup")
-                        ? "bg-teal-700 text-white ring-2 ring-teal-400 ring-offset-1"
-                        : "bg-teal-500 hover:bg-teal-600 text-white"
+                        ? "bg-cyan-600 text-white ring-2 ring-cyan-400 ring-offset-1"
+                        : "bg-cyan-500 hover:bg-cyan-600 text-white"
                     }`}
                   >
                     <FaUserPlus className="shrink-0" />
