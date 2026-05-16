@@ -1,8 +1,10 @@
 import BookingCard from "@/components/Ui/BookingCard";
 import { DeleteAlert } from "@/components/Ui/DeleteAlert";
 import { EditModal } from "@/components/Ui/EditModal";
+import { auth } from "@/lib/auth";
 // import { authClient } from "@/lib/auth-client";
 import { Button, Chip, Card } from "@heroui/react";
+import { headers } from "next/headers";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -25,7 +27,19 @@ const DestinationDetailPage = async ({ params }) => {
 
   // console.log(user);
 
-  const res = await fetch(`http://localhost:5004/destination/${id}`);
+  // ! here showed collecting JWT token from cookie in server component
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  // console.log(token);
+
+  const res = await fetch(`http://localhost:5004/destination/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
   const destination = await res.json();
   console.log(destination);
 
