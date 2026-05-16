@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Button, Card, Input } from "@heroui/react";
 import { FaE } from "react-icons/fa6";
 import { HiOutlineShieldCheck, HiOutlineSupport } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 const BookingCard = ({ destination }) => {
   const { data: session, isPending } = authClient.useSession();
@@ -13,9 +14,9 @@ const BookingCard = ({ destination }) => {
 
   const handleBooking = async () => {
     const bookingData = {
-      userId: user.id,
-      userImage: user.image,
-      userName: user.name,
+      userId: user?.id,
+      userImage: user?.image,
+      userName: user?.name,
       destinationId: destination._id,
       destinationName: destination.destinationName,
       price: destination.price,
@@ -33,7 +34,8 @@ const BookingCard = ({ destination }) => {
       body: JSON.stringify(bookingData),
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
+    toast.success("Successfully booked ", destination.destinationName);
   };
 
   return (
