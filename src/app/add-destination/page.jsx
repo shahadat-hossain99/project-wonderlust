@@ -21,13 +21,16 @@ const AddDestinationPage = () => {
 
     console.log(destination, "from user");
 
-    const res = await fetch("http://localhost:5004/destination", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/destination`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(destination),
       },
-      body: JSON.stringify(destination),
-    });
+    );
     const data = await res.json();
 
     console.log("res.ok:", res.ok, "status:", res.status);

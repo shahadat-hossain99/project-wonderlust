@@ -26,10 +26,15 @@ const BookingCard = ({ destination }) => {
     };
     // console.log(bookingData);
 
-    const res = await fetch("http://localhost:5004/booking", {
+    // ! JWT Token Accessing from client
+    const { data: tokenData } = await authClient.token();
+    console.log(tokenData);
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
       body: JSON.stringify(bookingData),
     });

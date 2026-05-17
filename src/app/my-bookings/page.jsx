@@ -9,7 +9,19 @@ const MyBookingsPage = async () => {
   });
   const user = session?.user;
 
-  const res = await fetch(`http://localhost:5004/booking/${user?.id}`);
+  // ! JWT token from a server components
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
+  );
 
   const bookings = await res.json();
   console.log(bookings);

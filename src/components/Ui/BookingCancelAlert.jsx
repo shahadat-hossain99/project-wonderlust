@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
@@ -9,14 +10,23 @@ export function BookingCancelAlert({ bookingId }) {
   //   const router = useRouter();
 
   const handleCancelBooking = async () => {
-    const res = await fetch(`http://localhost:5004/booking/${bookingId}`, {
-      method: "DELETE",
-      headers: {
-        "content-type": "application/json",
+    // ! JWT Token access in client component
+
+    const { data: tokenData } = await authClient.token();
+    // console.log(tokenData.token);
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
+        },
       },
-    });
+    );
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
 
     window.location.reload();
   };
