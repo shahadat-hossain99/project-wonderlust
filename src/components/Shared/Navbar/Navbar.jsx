@@ -133,8 +133,8 @@ const Navbar = () => {
                 <li>
                   <Button
                     onClick={handleSignOut}
-                    variant="danger-soft"
-                    className={"rounded-md"}
+                    variant="outline"
+                    className="border border-red-400 text-red-400 hover:bg-red-50 rounded-md"
                   >
                     <FaSignOutAlt className="rotate-180" size={15} />
                     Logout
@@ -248,7 +248,7 @@ const Navbar = () => {
                     <Button
                       onClick={handleSignOut}
                       variant="danger-soft"
-                      className={"w-full rounded-md"}
+                      className="border border-red-400 text-red-400 hover:bg-red-50 rounded-md w-full"
                     >
                       <FaSignOutAlt className="rotate-180" size={15} />
                       Logout

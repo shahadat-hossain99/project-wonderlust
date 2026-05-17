@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { redirect } from "next/navigation";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -9,12 +10,15 @@ export function DeleteAlert({ destination }) {
   const { _id, destinationName } = destination;
 
   const handleDelete = async () => {
+    const { data: tokenData } = await authClient.token();
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`,
       {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
       },
     );
@@ -55,13 +59,16 @@ export function DeleteAlert({ destination }) {
 
   return (
     <AlertDialog>
-      <Button className="rounded-md" variant="danger-soft">
+      <Button
+        className="border border-red-400 text-red-400 hover:bg-red-50 rounded-md"
+        variant="outline"
+      >
         {" "}
         <RiDeleteBin6Line size={25} /> Cancel
       </Button>
       <AlertDialog.Backdrop>
         <AlertDialog.Container>
-          <AlertDialog.Dialog className="sm:max-w-[400px]">
+          <AlertDialog.Dialog className="sm:max-w-100">
             <AlertDialog.CloseTrigger />
             <AlertDialog.Header className="flex flex-row items-center mb-5">
               <AlertDialog.Icon status="danger" />

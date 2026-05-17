@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 // import { Envelope } from "@gravity-ui/icons";
 import {
   Button,
@@ -41,12 +42,15 @@ export function EditModal({ destination }) {
 
     console.log(destination, "from user");
 
+    const { data: tokenData } = await authClient.token();
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`,
       {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(destination),
       },
@@ -88,7 +92,10 @@ export function EditModal({ destination }) {
 
   return (
     <Modal>
-      <Button variant="secondary" className="rounded-md  ">
+      <Button
+        variant="outline"
+        className="border border-cyan-500 text-cyan-400 hover:bg-cyan-50 rounded-md"
+      >
         {" "}
         <MdEditSquare size={25} /> Edit
       </Button>

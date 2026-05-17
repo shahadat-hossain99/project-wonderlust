@@ -14,18 +14,32 @@ const MyBookingsPage = async () => {
     headers: await headers(),
   });
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,
-    {
-      headers: {
-        authorization: `Bearer ${token}`,
+  let bookings = [];
+
+  try {
+    // NOTE: If this endpoint still returns the user profile object instead of an array,
+    // you'll need to update this URL to something like `/bookings/user/${user?.id}` depending on your backend router setup!
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+        cache: "no-store", // Ensures fresh data when users modify bookings
       },
-    },
-  );
+    );
 
-  const bookings = await res.json();
-  console.log(bookings);
+    if (res.ok) {
+      const data = await res.json();
+      console.log("MyBookingsPage Data fetched:", data);
 
+      // Defensively ensure data is an array so .length and .map do not crash the application
+      bookings = Array.isArray(data) ? data : [];
+    }
+  } catch (error) {
+    console.error("Error fetching bookings in MyBookingsPage:", error);
+    bookings = []; // Graceful fallback
+  }
   return (
     <div>
       <div className="max-w-7xl mx-auto pt-6 space-y-5 p-8">
